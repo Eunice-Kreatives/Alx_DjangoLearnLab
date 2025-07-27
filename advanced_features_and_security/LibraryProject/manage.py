@@ -2,7 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'LibraryProject'))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
+
 
 
 
