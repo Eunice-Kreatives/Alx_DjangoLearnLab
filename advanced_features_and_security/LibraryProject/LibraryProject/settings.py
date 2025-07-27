@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,11 +28,24 @@ DEBUG = False
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True 
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+# Enforce HTTPS
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP to HTTPS
+
+# HTTP Strict Transport Security
+SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 
 
 # Application definition
@@ -114,6 +127,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Use environment variable to determine if we're in production
+IS_PRODUCTION = os.getenv('DJANGO_PRODUCTION') == '1'
+
+if IS_PRODUCTION:
+    # Redirect HTTP to HTTPS
+    SECURE_SSL_REDIRECT = True
+
+    # HTTP Strict Transport Security
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    # Secure Cookies
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # Secure Headers
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+else:
+    # Development-safe defaults
+    SECURE_SSL_REDIRECT = False
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -155,3 +192,22 @@ MEDIA_ROOT = BASE_DIR / 'media'
 #- CSRF tokens included in all forms
 #- ORM used instead of raw SQL to prevent injection
 #- CSP configured via django-csp to reduce XSS risk
+
+# Security Configuration Summary
+
+## HTTPS and Secure Redirects
+#- All HTTP traffic is redirected to HTTPS using `SECURE_SSL_REDIRECT = True`.
+#- HSTS (HTTP Strict Transport Security) is enforced for one year and includes all subdomains.
+#- Preloading is enabled to allow inclusion in browser preload lists.
+
+## Secure Cookies
+#- `SESSION_COOKIE_SECURE` and `CSRF_COOKIE_SECURE` ensure cookies are sent only over HTTPS.
+
+## Secure Headers
+#- `X_FRAME_OPTIONS = 'DENY'` prevents clickjacking.
+#- `SECURE_CONTENT_TYPE_NOSNIFF = True` blocks MIME type sniffing.
+#- `SECURE_BROWSER_XSS_FILTER = True` helps block XSS attacks.
+
+## Deployment Notes
+#- SSL/TLS certificates configured via Nginx with Let's Encrypt.
+#- All traffic proxied through secure Nginx configuration.
