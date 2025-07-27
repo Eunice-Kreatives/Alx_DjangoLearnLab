@@ -211,3 +211,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 ## Deployment Notes
 #- SSL/TLS certificates configured via Nginx with Let's Encrypt.
 #- All traffic proxied through secure Nginx configuration.
+
+# Tell Django how to detect secure connections behind a proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
