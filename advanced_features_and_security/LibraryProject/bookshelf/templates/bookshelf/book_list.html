@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Book List</h2>
+
+  <form method="GET">
+    <input type="text" name="q" placeholder="Search by title" value="{{ search_term }}">
+    <button type="submit">Search</button>
+  </form>
+
+  {% if book_list %}
+    <ul>
+      {% for book in book_list %}
+        <li><strong>{{ book.title }}</strong> by {{ book.author }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No books available.</p>
+  {% endif %}
+
+  <a href="{% url 'add_book' %}">Add a new book</a>
+{% endblock %}

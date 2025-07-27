@@ -4,8 +4,16 @@ from .models import Book
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def book_list(request):
-    books = Book.objects.all()
-    return render(request, 'bookshelf/book_list.html', {'books': books})
+    search_term = request.GET.get('q', '')  # Get 'q' parameter from URL
+    if search_term:
+        books = Book.objects.filter(title__icontains=search_term)
+    else:
+        books = Book.objects.all()
+    
+    return render(request, 'bookshelf/book_list.html', {
+        'book_list': books,
+        'search_term': search_term
+    })
 
 @permission_required('bookshelf.can_create', raise_exception=True)
 def book_create(request):
@@ -23,4 +31,3 @@ def book_delete(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
     return redirect('book_list')
-
