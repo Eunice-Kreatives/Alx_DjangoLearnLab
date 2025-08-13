@@ -54,3 +54,36 @@
 - **Description:** Deletes a book entry.
 - **Custom Behavior:**
   - Logs the delete action.
+
+
+### API Query Capabilities
+
+## 📚 Book API – Filtering, Searching & Ordering
+
+The `/api/books/` endpoint supports **filtering**, **searching**, and **ordering** to help you easily query and organize book data.
+
+---
+
+###  1. Filtering
+Implemented using **`DjangoFilterBackend`**.  
+You can filter books by:
+
+- `title` (exact match)
+- `author` (author ID)
+- `publication_year` (exact year)
+
+### 2. Searching
+Implemented using SearchFilter.
+Searches in:
+
+-`title`
+-`author__name` (related field lookup)
+
+### 3. Ordering
+Implemented using OrderingFilter.
+Order results by:
+
+-`title`
+-`author`
+-`publication_year`
+Prefix with - for descending order.
