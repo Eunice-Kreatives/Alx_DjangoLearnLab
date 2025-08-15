@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+<h2>My Profile</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Update Your Info</legend>
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+    </fieldset>
+    <button type="submit">Update Profile</button>
+</form>
+{% endblock %}

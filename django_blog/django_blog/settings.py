@@ -24,6 +24,11 @@ SECRET_KEY = 'django-insecure-b@@dpad34k(knuseyd^%-0-!v+$na1tjm+2ab&u21l_3e^ah^r
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+SESSION_COOKIE_SECURE = True        # Only send cookie over HTTPS
+CSRF_COOKIE_SECURE = True           # Same for CSRF cookie
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -129,3 +134,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'blog:profile'
+LOGOUT_REDIRECT_URL = 'blog:login'

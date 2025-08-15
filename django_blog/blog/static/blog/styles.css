@@ -43,3 +43,26 @@ footer {
     background-color: #333;
     color: white;
 }
+
+.auth-container, .profile-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+.auth-container h2, .profile-container h2 {
+    text-align: center;
+}
+.error-list {
+    background: #ffdddd;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid red;
+    color: red;
+}
+button {
+    width: 100%;
+    padding: 10px;
+}
