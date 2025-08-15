@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% block title %}Edit Comment{% endblock %}
+{% block content %}
+<div class="auth-container">
+  <h2>Edit Comment</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{ form.content.errors }}
+    {{ form.content }}
+    <button type="submit">Save</button>
+  </form>
+</div>
+{% endblock %}
