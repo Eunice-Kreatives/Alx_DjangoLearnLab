@@ -3,20 +3,11 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
 # Create your models here.
-
-class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('blog:tag-detail', kwargs={'pk': self.pk})
     
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    tags = TaggableManager
+    tags = TaggableManager()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'posts')
 
