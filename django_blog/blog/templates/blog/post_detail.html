@@ -1,13 +1,23 @@
+
 <h1>{{ object.title }}</h1>
 <p>{{ object.content }}</p>
 <p>By {{ object.author }} on {{ object.created_at }}</p>
 
-{% if user == object.author %}
-    <a href="{% url 'post-update' object.pk %}">Edit</a> |
-    <a href="{% url 'post-delete' object.pk %}">Delete</a>
+{% if user == post.author %}
+    <a href="{% url 'blog:post-update' post.pk %}">Edit</a> |
+    <a href="{% url 'blog:post-delete' post.pk %}">Delete</a>
 {% endif %}
-<a href="{% url 'post-list' %}">Back to List</a>
+<a href="{% url 'blog:post-list' %}">Back to List</a>
 
+<p>Tags:
+    {% for tag in object.tags.all %}
+        <a href="{% url 'blog:posts-by-tag' tag.name %}">{{ tag.name }}</a>
+    {% empty %}
+        No tags
+    {% endfor %}
+</p>
 
-
-  
+<form method="get" action="{% url 'blog:search' %}">
+    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
