@@ -83,7 +83,6 @@ Authorization: Token <your_token>
 ✅ Returns or updates the authenticated user profile
 
 ## Posts
-
 List: GET /api/posts/
 Retrieve: GET /api/posts/{id}/
 Create: POST /api/posts/ (auth)
@@ -95,10 +94,21 @@ Ordering: ?ordering=title or ?ordering=-created_at
 Pagination: ?page=2
 
 ##Comments
-
 List: GET /api/comments/ (filter by post: ?post=<id>)
 Retrieve: GET /api/comments/{id}/
 Create: POST /api/comments/ (auth)
 Body: { "post": <post_id>, "content": "str" }
 Update: PUT/PATCH /api/comments/{id}/ (owner only)
 Delete: DELETE /api/comments/{id}/ (owner only)
+
+## Follow a user
+POST /accounts/follow/{user_id}/
+Headers: Authorization: Bearer <token>
+
+##Unfollow a user
+POST /accounts/unfollow/{user_id}/
+Headers: Authorization: Bearer <token>
+
+##Get feed
+GET /posts/feed/
+Headers: Authorization: Bearer <token>
