@@ -112,3 +112,22 @@ Headers: Authorization: Bearer <token>
 ##Get feed
 GET /posts/feed/
 Headers: Authorization: Bearer <token>
+
+## Like a post
+POST /posts/5/like/
+Response:
+{"message": "Post liked."}
+
+## Get notifications
+GET /notifications/
+Response:
+[
+  {
+    "id": 1,
+    "actor": "john",
+    "verb": "liked your post",
+    "target": "Hello world post",
+    "timestamp": "2025-08-20T18:05:00Z",
+    "is_read": false
+  }
+]
