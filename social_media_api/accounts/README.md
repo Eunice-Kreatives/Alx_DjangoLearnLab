@@ -81,3 +81,24 @@ Copy
 Edit
 Authorization: Token <your_token>
 ✅ Returns or updates the authenticated user profile
+
+## Posts
+
+List: GET /api/posts/
+Retrieve: GET /api/posts/{id}/
+Create: POST /api/posts/ (auth)
+Body: { "title": "str", "content": "str" }
+Update: PUT/PATCH /api/posts/{id}/ (owner only)
+Delete: DELETE /api/posts/{id}/ (owner only)
+Search: ?search=<term>
+Ordering: ?ordering=title or ?ordering=-created_at
+Pagination: ?page=2
+
+##Comments
+
+List: GET /api/comments/ (filter by post: ?post=<id>)
+Retrieve: GET /api/comments/{id}/
+Create: POST /api/comments/ (auth)
+Body: { "post": <post_id>, "content": "str" }
+Update: PUT/PATCH /api/comments/{id}/ (owner only)
+Delete: DELETE /api/comments/{id}/ (owner only)
