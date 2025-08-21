@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 import dj_database_url
 from decouple import config
+from pathlib import Path
+import urllib.parse
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,13 +84,31 @@ WSGI_APPLICATION = 'social_media_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR/'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=config("DB_SSL_REQUIRE", default="false").lower() == "true",
-    )
-}
+# Get DATABASE_URL from environment or fallback to local SQLite
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR/'db.sqlite3'}")
+
+# Parse the database URL
+url = urllib.parse.urlparse(DATABASE_URL)
+
+if url.scheme.startswith("postgres"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": url.path[1:],  # remove leading slash
+            "USER": url.username,
+            "PASSWORD": url.password,
+            "HOST": url.hostname,
+            "PORT": url.port,  # <-- explicitly included
+        }
+    }
+else:
+    # fallback to SQLite
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
